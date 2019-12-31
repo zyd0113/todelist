@@ -3,15 +3,18 @@
     <div class="titlebar">
       <h2 style="padding-top:8px;color:#FFF">任务计划列表</h2>
     </div>
-    <div style="width:75%;margin:0 auto;" >
+    <div style="width:75%;margin:0 auto;">
       <a-row>
         <a-col :span="4">
           <p style="font-size:30px">
             <strong>添加新任务：</strong>
           </p>
         </a-col>
-        <a-col :span="20">
+        <a-col :span="16">
           <a-input style="margin-top:3px;height:40px"></a-input>
+        </a-col>
+        <a-col :span="4">
+          <a-button style="margin-left:30px;margin-top:3px;height:40px" @click="addduty">添加任务</a-button>
         </a-col>
       </a-row>
     </div>
@@ -20,13 +23,23 @@
       <router-link to="/willdo">未完成任务</router-link>
       <router-link to="/done">已完成任务</router-link>
     </div>
-    <router-view/>
+    <div style="width:75%;margin:0 auto;margin-top:30px">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: "App",
+  data () {
+    return {}
+  },
+  methods: {
+    addduty () {
+      console.log("添加任务成功")
+    }
+  }
 }
 </script>
 
@@ -35,12 +48,31 @@ export default {
   text-align: center;
   height: 60px;
   width: 100%;
-  background-color: #c0b70b;
+  background-color: #000000;
   font-size: 18px;
   font-weight: 5px;
   margin-bottom: 30px;
-},
-.tab{
+}
+.tab {
   font-size: 20px;
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+.tab a {
+  font-size: 30px;
+  color: #000;
+  font-weight: 600;
+  background-color: #fff;
+  text-decoration: none;
+}
+a:hover {
+  color: rgb(175, 172, 172);
+}
+.tab .active {
+  color: #fff;
+  background-color: #000;
+  text-decoration: none;
 }
 </style>

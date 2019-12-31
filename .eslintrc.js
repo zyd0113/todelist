@@ -26,7 +26,8 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     "no-unused-vars": 'off',
-    'no-trailing-spaces': ["error", { "skipBlankLines": true }],
-    "quotes": [1, "single"],
+    'no-trailing-spaces': [0, { "skipBlankLines": true }],
+    "quotes": [1, "double"],
+    'semi': 0
   }
 }
