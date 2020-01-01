@@ -11,7 +11,7 @@
           </p>
         </a-col>
         <a-col :span="16">
-          <a-input style="margin-top:3px;height:40px"></a-input>
+          <a-input style="margin-top:3px;height:40px" v-model="duty"></a-input>
         </a-col>
         <a-col :span="4">
           <a-button style="margin-left:30px;margin-top:3px;height:40px" @click="addduty">添加任务</a-button>
@@ -24,23 +24,32 @@
       <router-link to="/done">已完成任务</router-link>
     </div>
     <div style="width:75%;margin:0 auto;margin-top:30px">
-      <router-view />
+      <router-view :duty='dutyname' />
     </div>
   </div>
 </template>
 
 <script>
+import All from "./components/all.vue";
 export default {
   name: "App",
+  components: {
+    All
+  },
   data () {
-    return {}
+    return {
+      duty: "",
+      dutyname: ""
+    };
   },
   methods: {
     addduty () {
-      console.log("添加任务成功")
+      this.dutyname = this.duty
+      console.log("添加任务成功");
+      this.duty = ""
     }
   }
-}
+};
 </script>
 
 <style>
