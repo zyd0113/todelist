@@ -2,6 +2,7 @@
   <div>
     <div>
       <a-table
+        :rowKey="record => record.createtime"
         :rowSelection="{
           selectedRowKeys: selectedRowKeys,
           onChange: onSelectChange
@@ -27,42 +28,98 @@ const columns = [
 export default {
   props: ["duty"],
   name: "All",
-  data () {
+  data() {
     return {
       data: [],
       columns,
-      selectedRowKeys: [], // Check here to configure the default column
-      loading: false
+      selectedRowKeys: [],
+      loading: false,
+      willdo: []
     };
   },
-  mounted () {
-    this.fetch()
+  mounted() {
+    this.fetch();
   },
   computed: {
+    rowSelection() {
+      const { selectedRowKeys } = this;
+      return {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(
+            `selectedRowKeys: ${selectedRowKeys}`,
+            "selectedRows: ",
+            selectedRows
+          );
+        },
+        getCheckboxProps: record => ({
+          props: {
+            disabled: record.name === "Disabled User", // Column configuration not to be checked
+            name: record.name
+          }
+        })
+      };
+    }
   },
   methods: {
-    onSelectChange (selectedRowKeys) {
+    onSelectChange(selectedRowKeys, record) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
+      this.selectednum = selectedRowKeys.length;
+      console.log(record, "record");
+      window.localStorage.removeItem("record");
+      localStorage.setItem("record", JSON.stringify(record));
       this.selectedRowKeys = selectedRowKeys;
-    },
-    fetch () {
-      if (JSON.parse(localStorage.getItem('todolist'))) {
-        this.data = JSON.parse(localStorage.getItem('todolist'));
+      var willdolist = this.data
+      console.log(willdolist, "will")
+      for (var item of willdolist) {
+        for (var i of record) {
+          if (this.willdolist[item].createtime == record[i]) {//eslint-disable-line
+            willdolist.pop(item);
+          }
+        }
       }
-      console.log(this.data,'newdata')
+      console.log(willdolist, "willdolist")
+    },
+    fetch() {
+      if (JSON.parse(localStorage.getItem("todolist"))) {
+        this.data = JSON.parse(localStorage.getItem("todolist"));
+      }
+      if (JSON.parse(localStorage.getItem("record"))) {
+        var a = [];
+        var item;
+        a = JSON.parse(localStorage.getItem("record"));
+        for (item of a) {
+          this.selectedRowKeys.push(item.createtime);
+        }
+      }
+      console.log(this.data, "newdata");
+      console.log(this.selectedRowKeys, "selectedRowKeys");
     }
   },
   watch: {
-    duty: function (value) {
-      window.localStorage.removeItem('todolist')
+    duty: function(value) {
+      window.localStorage.removeItem("todolist");
       var time = new Date();
       var year = time.getFullYear();
       var month = time.getMonth() + 1; // 记得当前月是要+1的
       var date = time.getDate();
-      var today = year + "-" + month + "-" + date;
+      var hours = time.getHours();
+      var minutes = time.getMinutes();
+      var second = time.getSeconds();
+      var today =
+        year +
+        "-" +
+        month +
+        "-" +
+        date +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        second;
       console.log(value, "value");
       this.data.unshift({ name: value, createtime: today });
-      localStorage.setItem('todolist', JSON.stringify(this.data));
+      localStorage.setItem("todolist", JSON.stringify(this.data));
     }
   }
 };

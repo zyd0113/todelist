@@ -28,6 +28,7 @@ module.exports = {
     "no-unused-vars": 'off',
     'no-trailing-spaces': [0, { "skipBlankLines": true }],
     "quotes": [1, "double"],
-    'semi': 0
+    'semi': 0,
+    "space-before-function-paren": 0,
   }
 }
