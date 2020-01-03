@@ -24,7 +24,7 @@
       <router-link to="/done">已完成任务</router-link>
     </div>
     <div style="width:75%;margin:0 auto;margin-top:30px">
-      <router-view :duty='dutyname' />
+      <router-view :duty='dutyname' @getWilldo="getWilldo" :willdoduty='willdoduty'/>
     </div>
   </div>
 </template>
@@ -39,7 +39,8 @@ export default {
   data () {
     return {
       duty: "",
-      dutyname: ""
+      dutyname: "",
+      willdoduty: []
     };
   },
   methods: {
@@ -47,6 +48,9 @@ export default {
       this.dutyname = this.duty
       console.log("添加任务成功");
       this.duty = ""
+    },
+    getWilldo (value) {
+      this.willdoduty = value
     }
   }
 };

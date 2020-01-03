@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import bus from "../assets/Bus"
 const columns = [
   {
     title: "名称",
@@ -34,7 +35,8 @@ export default {
       columns,
       selectedRowKeys: [],
       loading: false,
-      willdo: []
+      willdo: [],
+      willdolist: []
     };
   },
   mounted() {
@@ -62,22 +64,23 @@ export default {
   },
   methods: {
     onSelectChange(selectedRowKeys, record) {
+      var willdolist = [];
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectednum = selectedRowKeys.length;
       console.log(record, "record");
       window.localStorage.removeItem("record");
       localStorage.setItem("record", JSON.stringify(record));
       this.selectedRowKeys = selectedRowKeys;
-      var willdolist = this.data
-      console.log(willdolist, "will")
-      for (var item of willdolist) {
+      for (var item of this.data) {
         for (var i of record) {
-          if (this.willdolist[item].createtime == record[i]) {//eslint-disable-line
-            willdolist.pop(item);
+          if (item.createtime == i.createtime) {//eslint-disable-line
+            willdolist.push(item);
           }
         }
       }
-      console.log(willdolist, "willdolist")
+      console.log(willdolist, "willdolist");
+      // this.$emit("getWilldo", willdolist);
+      bus.$emit("getWilldo", willdolist);
     },
     fetch() {
       if (JSON.parse(localStorage.getItem("todolist"))) {
